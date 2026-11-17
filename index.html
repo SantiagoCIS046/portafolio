@@ -236,6 +236,67 @@
     .eyebrow{font-size:.68rem;letter-spacing:.16em}
     .chip{font-size:.68rem;padding:4px 9px}
   }
+  /* Vista de escritorio más compacta */
+  @media (min-width:861px){
+    body{font-size:.95rem;line-height:1.55}
+    .wrap{max-width:1000px;padding:0 26px}
+    .nav-wrap{width:min(1000px,calc(100% - 32px))}
+    nav{padding:9px 18px}
+    nav .logo{font-size:.95rem}
+    nav ul{gap:18px;font-size:.82rem}
+    /* Intro */
+    #inicio{height:190vh}
+    .intro-txt h1{font-size:clamp(2.2rem,5.5vw,4.2rem)}
+    .intro-txt p{font-size:.98rem}
+    /* Perfil */
+    #perfil{padding:92px 0 80px}
+    .perfil-grid{gap:42px}
+    .perfil-txt h2{font-size:clamp(1.6rem,3.2vw,2.4rem)}
+    .foto{max-width:420px}
+    .info{gap:10px;margin:22px 0}
+    .info div{padding:11px 14px}
+    .info span{font-size:.88rem}
+    .chips{gap:7px}
+    .chip{font-size:.76rem;padding:5px 11px}
+    .exp{margin-top:40px;gap:14px}
+    .exp .glass{padding:18px}
+    .exp .fecha{font-size:.74rem}
+    .exp h3{font-size:.95rem}
+    .exp p{font-size:.84rem}
+    /* Proyectos */
+    #proyectos{padding:84px 0}
+    #proyectos h2{font-size:clamp(1.6rem,3.2vw,2.2rem)}
+    .lead{max-width:560px;margin-bottom:22px}
+    .controles{padding:11px 14px;margin-bottom:20px}
+    .filtro{padding:7px 13px;font-size:.8rem}
+    .buscar{font-size:.85rem;min-width:220px;padding:8px 14px}
+    .contador{font-size:.78rem}
+    .grupo-titulo{margin:36px 0 14px}
+    .grupo-titulo h3{font-size:1.05rem}
+    .carrusel{gap:12px}
+    .carrusel .card{flex:0 0 280px;padding:18px}
+    .grupo.expandido .carrusel{grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr))}
+    .card .cover{height:104px;margin-bottom:12px}
+    .card .ico{width:34px;height:34px;font-size:.74rem}
+    .card h3{font-size:1rem}
+    .card .desc{font-size:.84rem}
+    .card .como{font-size:.8rem}
+    .card .stack{font-size:.7rem}
+    .estado{padding:3px 9px}
+    .enlaces{gap:7px}
+    .enlaces a{font-size:.78rem;padding:7px 12px}
+    /* Contacto */
+    #contacto{padding:92px 0 60px}
+    #contacto h2{font-size:clamp(1.8rem,4vw,2.8rem)}
+    .contacto-grid{gap:40px}
+    #contacto .bajada{margin-bottom:22px}
+    .botones{gap:10px}
+    .btn{padding:10px 20px;font-size:.86rem}
+    .dato{padding:14px 16px;gap:14px}
+    .dato .ic{width:38px;height:38px}
+    .dato a,.dato span{font-size:.9rem}
+    footer{font-size:.76rem}
+  }
   @media (prefers-reduced-motion:reduce){
     #inicio{height:auto}
     .intro-stage{position:relative;height:auto;padding:160px 0 100px}
