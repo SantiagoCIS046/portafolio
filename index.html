@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Santiago Cisneros · Desarrollador Web</title>
+<style>
+  :root{
+    --bg:#081012; --bg2:#0C181C;
+    --texto:#E6EEEA; --suave:#9FB0AA; --sutil:#6B7D77;
+    --azul:#6FA8C7; --azul-h:#8CC0DB; --azul-osc:#2C5A72;
+    --salvia:#8DB59A; --arena:#CDB98F;
+    --panel:rgba(255,255,255,.045); --panel-h:rgba(255,255,255,.075);
+    --borde:rgba(255,255,255,.09);
+    --sombra:0 20px 50px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--texto);line-height:1.6;overflow-x:hidden;background:var(--bg);
+    background-image:
+      radial-gradient(900px 600px at 0% -10%, rgba(111,168,199,.12), transparent 60%),
+      radial-gradient(800px 600px at 100% 40%, rgba(141,181,154,.08), transparent 60%),
+      radial-gradient(900px 700px at 50% 100%, rgba(44,90,114,.18), transparent 60%);
+    background-attachment:fixed;
+  }
+  a{color:var(--azul);text-decoration:none}
+  h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;line-height:1.2;color:#F2F7F4}
+  .eyebrow{font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--azul);font-weight:700;margin-bottom:12px}
+  .glass{background:var(--panel);backdrop-filter:blur(18px) saturate(130%);-webkit-backdrop-filter:blur(18px) saturate(130%);border:1px solid var(--borde);box-shadow:var(--sombra);border-radius:20px}
+  section{position:relative}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+
+  /* Nav */
+  nav{overflow:hidden;position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:30;width:min(1040px,calc(100% - 32px));padding:10px 22px;display:flex;justify-content:space-between;align-items:center;border-radius:999px}
+  nav .logo{font-family:Georgia,serif;font-weight:600;color:#F2F7F4}
+  nav ul{display:flex;gap:22px;list-style:none;font-size:.88rem}
+  nav ul a{color:var(--suave)}
+  nav ul a:hover{color:var(--azul-h)}
+  #barra{position:absolute;left:0;right:0;bottom:0;height:2px;width:0;background:linear-gradient(90deg,var(--azul),var(--salvia));border-radius:2px}
+
+  /* ===== 1. INTRO con fondo de desarrollador ===== */
+  #inicio{height:220vh}
+  .intro-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .intro-bg{position:absolute;inset:0;will-change:transform,opacity}
+  .intro-bg svg{width:100%;height:100%;display:block}
+  .intro-velo{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,16,18,.55) 0%,rgba(8,16,18,.25) 40%,rgba(8,16,18,.85) 100%)}
+  .intro-txt{position:relative;text-align:center;padding:0 24px;will-change:transform,opacity;margin-top:-80px}
+  .intro-txt .eyebrow{color:var(--azul-h)}
+  .intro-txt h1{font-size:clamp(2.6rem,7vw,5.6rem);letter-spacing:-.01em;text-shadow:0 6px 30px rgba(0,0,0,.5)}
+  .intro-txt p{color:var(--suave);margin-top:14px;font-size:1.05rem}
+  .pista{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-size:.76rem;color:var(--suave);letter-spacing:.2em}
+  .cursor{animation:parpadeo 1s steps(1) infinite}
+  @keyframes parpadeo{50%{opacity:0}}
+
+  /* ===== 2. PERFIL ===== */
+  #perfil{padding:120px 0 110px}
+  .perfil-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+  .foto{border-radius:24px;overflow:hidden;box-shadow:var(--sombra);border:1px solid var(--borde)}
+  .foto img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;filter:saturate(.9)}
+  .perfil-txt h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:8px}
+  .rol{color:var(--azul-h);font-weight:600;margin-bottom:18px}
+  .perfil-txt .bio{color:var(--suave);margin-bottom:14px}
+  .info{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:26px 0}
+  .info div{padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--borde)}
+  .info small{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;color:var(--sutil);margin-bottom:4px}
+  .info span{font-size:.94rem;color:#DDE7E2}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{padding:6px 13px;border-radius:999px;font-size:.84rem;font-weight:600;color:#CFE3EC;background:rgba(111,168,199,.1);border:1px solid rgba(111,168,199,.22)}
+  .chip.s{color:#CFE5D6;background:rgba(141,181,154,.1);border-color:rgba(141,181,154,.22)}
+  .chip.a{color:#EBDDBE;background:rgba(205,185,143,.1);border-color:rgba(205,185,143,.22)}
+  .exp{margin-top:50px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .exp .glass{padding:22px}
+  .exp .fecha{font-size:.78rem;color:var(--arena);font-weight:700;margin-bottom:6px}
+  .exp h3{font-size:1.02rem;margin-bottom:6px}
+  .exp p{color:var(--suave);font-size:.9rem}
+
+  /* ===== 3. PROYECTOS ===== */
+  #proyectos{padding:110px 0 110px;border-top:1px solid var(--borde)}
+  #proyectos h2{font-size:clamp(2rem,4vw,2.8rem);margin-bottom:10px}
+  .lead{color:var(--suave);max-width:640px;margin-bottom:28px}
+  .controles{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px 16px;margin-bottom:24px}
+  .filtros{display:flex;flex-wrap:wrap;gap:8px}
+  .filtro{border:1px solid var(--borde);background:rgba(255,255,255,.03);color:var(--suave);padding:8px 16px;border-radius:999px;font-size:.86rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+  .filtro:hover{color:#fff;border-color:rgba(255,255,255,.2)}
+  .filtro.activo{background:var(--azul);color:#06161C;border-color:var(--azul)}
+  .buscar{border:1px solid var(--borde);background:rgba(255,255,255,.03);border-radius:999px;padding:9px 16px;font-size:.9rem;min-width:240px;font-family:inherit;color:var(--texto);outline:none}
+  .buscar::placeholder{color:var(--sutil)}
+  .buscar:focus{border-color:var(--azul);box-shadow:0 0 0 3px rgba(111,168,199,.15)}
+  .contador{font-size:.84rem;color:var(--sutil);margin-bottom:12px}
+  .grupo-titulo{display:flex;align-items:center;gap:14px;margin:44px 0 18px}
+  .grupo-titulo h3{font-size:1.2rem}
+  .grupo-titulo span{font-size:.72rem;padding:4px 12px;border-radius:999px;font-weight:700;background:rgba(111,168,199,.12);color:var(--azul-h);border:1px solid rgba(111,168,199,.22)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+  .card{padding:24px;display:flex;flex-direction:column;opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease,background .25s,border-color .25s}
+  .card.in{opacity:1;transform:none}
+  .card:hover{background:var(--panel-h);border-color:rgba(255,255,255,.16)}
+  .card.oculto{display:none}
+  .card .cab{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+  .card .ico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:var(--azul-h);background:rgba(111,168,199,.12);border:1px solid rgba(111,168,199,.2);flex-shrink:0;font-family:system-ui,sans-serif}
+  .card.verde .ico{color:var(--salvia);background:rgba(141,181,154,.12);border-color:rgba(141,181,154,.2)}
+  .card.arena .ico{color:var(--arena);background:rgba(205,185,143,.12);border-color:rgba(205,185,143,.2)}
+  .estado{font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:999px;color:var(--suave);border:1px solid var(--borde);white-space:nowrap;letter-spacing:.04em}
+  .estado.curso{color:var(--arena);border-color:rgba(205,185,143,.3)}
+  .card h3{font-size:1.08rem;margin-bottom:6px}
+  .card .desc{color:var(--suave);font-size:.9rem;margin-bottom:10px}
+  .card .como{font-size:.85rem;color:#C9D6D0;background:rgba(0,0,0,.2);border-radius:12px;padding:10px 12px;margin-bottom:12px;border:1px solid rgba(255,255,255,.05)}
+  .card .como b{color:var(--azul-h);font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;display:block;margin-bottom:3px}
+  .card .stack{font-size:.74rem;color:var(--salvia);font-weight:700;letter-spacing:.04em;margin-bottom:14px}
+  .enlaces{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px}
+  .enlaces a{font-size:.82rem;font-weight:700;padding:8px 14px;border-radius:999px;border:1px solid rgba(111,168,199,.4);color:var(--azul-h);background:rgba(111,168,199,.06);transition:all .2s}
+  .enlaces a:hover{background:var(--azul);color:#06161C;border-color:var(--azul)}
+  .enlaces a.gh{border-color:rgba(255,255,255,.2);color:#E6EEEA;background:rgba(255,255,255,.03)}
+  .enlaces a.gh:hover{background:#E6EEEA;color:#06161C;border-color:#E6EEEA}
+  .vacio{text-align:center;padding:30px;color:var(--sutil);display:none}
+
+  /* ===== 4. CONTACTO ===== */
+  #contacto{padding:120px 0 80px;border-top:1px solid var(--borde);overflow:hidden}
+  .contacto-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  #contacto h2{font-size:clamp(2.2rem,5vw,3.6rem);margin-bottom:14px}
+  #contacto .bajada{color:var(--suave);max-width:520px;margin-bottom:28px}
+  .botones{display:flex;flex-wrap:wrap;gap:12px}
+  .btn{display:inline-block;padding:12px 24px;border-radius:999px;font-weight:700;font-size:.92rem;background:var(--azul);color:#06161C}
+  .btn:hover{background:var(--azul-h)}
+  .btn.borde{background:transparent;color:#E6EEEA;border:1px solid rgba(255,255,255,.22)}
+  .btn.borde:hover{background:rgba(255,255,255,.06)}
+  .datos{padding:10px}
+  .dato{display:flex;gap:16px;align-items:center;padding:18px 20px;border-bottom:1px solid var(--borde)}
+  .dato:last-child{border-bottom:0}
+  .dato .ic{width:42px;height:42px;border-radius:12px;background:rgba(111,168,199,.1);border:1px solid rgba(111,168,199,.2);display:flex;align-items:center;justify-content:center;color:var(--azul-h);font-weight:700;font-size:.8rem;flex-shrink:0}
+  .dato small{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;color:var(--sutil)}
+  .dato a,.dato span{color:#E6EEEA;font-size:.98rem}
+  footer{text-align:center;color:var(--sutil);font-size:.82rem;padding:0 24px 40px}
+
+  @media (max-width:860px){
+    .perfil-grid,.contacto-grid{grid-template-columns:1fr;gap:32px}
+    .exp{grid-template-columns:1fr}
+    nav ul{display:none}
+    .pista{display:none}
+    .buscar{min-width:100%}
+    .info{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    #inicio{height:auto}
+    .intro-stage{position:relative;height:auto;padding:160px 0 100px}
+    .card{opacity:1;transform:none;transition:none}
+    .cursor{animation:none}
+  }
+</style>
+</head>
+<body>
+
+<nav class="glass">
+  <span class="logo">Santiago Cisneros</span>
+  <ul>
+    <li><a href="#perfil">Perfil</a></li>
+    <li><a href="#proyectos">Proyectos</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <div id="barra"></div>
+</nav>
+
+<!-- 1. INTRO -->
+<section id="inicio">
+  <div class="intro-stage" id="intro">
+    <div class="intro-bg" id="introBg">
+      <!-- Ilustración: desarrollador sentado programando una app web -->
+      <img src="img/fondo.png" alt="Desarrollador web programando frente a varios monitores" style="width:100%;height:100%;object-fit:cover;display:block">
+    </div>
+    <div class="intro-velo"></div>
+    <div class="intro-txt" id="introTxt">
+      <p class="eyebrow">Hola, soy Santiago</p>
+      <h1>Desarrollador Web<span class="cursor">_</span></h1>
+      <p>Construyo aplicaciones web de principio a fin.</p>
+    </div>
+    <div class="pista">DESLIZA ↓</div>
+  </div>
+</section>
+
+<!-- 2. PERFIL -->
+<section id="perfil">
+  <div class="wrap">
+    <div class="perfil-grid">
+      <div class="foto"><img src="img/perfil.jpg" alt="Santiago José Cisneros Mendoza"></div>
+      <div class="perfil-txt">
+        <p class="eyebrow">Perfil</p>
+        <h2>Santiago José Cisneros Mendoza</h2>
+        <p class="rol">Desarrollador de Software · Full Stack</p>
+        <p class="bio">Llevo 4 años creando aplicaciones web, sistemas de gestión, bases de datos e integraciones con inteligencia artificial. Me interesa que cada proyecto sea claro para quien lo usa y sólido por dentro.</p>
+        <div class="info">
+          <div><small>Ubicación</small><span>San Gil, Santander, Colombia</span></div>
+          <div><small>Experiencia</small><span>4 años como desarrollador</span></div>
+          <div><small>Formación</small><span>Tecnólogo en Análisis y Desarrollo de Software · SENA</span></div>
+          <div><small>Idiomas</small><span>Español nativo · Inglés B1 · Italiano básico</span></div>
+        </div>
+        <div class="chips">
+          <span class="chip">JavaScript</span><span class="chip">Python</span><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">SQL</span>
+          <span class="chip s">Vue.js</span><span class="chip s">React.js</span><span class="chip s">Quasar</span><span class="chip s">Node.js</span>
+          <span class="chip a">MySQL</span><span class="chip a">MongoDB</span><span class="chip a">Git</span><span class="chip a">Google Gemini API</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp">
+      <div class="glass"><p class="fecha">2024 – 2025</p><h3>Desarrollador Junior · Google Gemini API</h3><p>App web con Vue.js y Node.js para buscar lugares, recopilar datos para recomendaciones y crear un chat automático.</p></div>
+      <div class="glass"><p class="fecha">2024 – 2025</p><h3>Desarrollador Junior · Bases de datos</h3><p>Diseño y gestión de bases de datos en MySQL y MongoDB para proyectos personales y profesionales.</p></div>
+      <div class="glass"><p class="fecha">2023 – 2026</p><h3>Tecnólogo · SENA</h3><p>Análisis y Desarrollo de Software. Certificación de finalización en trámite.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. PROYECTOS -->
+<section id="proyectos">
+  <div class="wrap">
+    <p class="eyebrow">Portafolio</p>
+    <h2>Lo que he construido</h2>
+    <p class="lead">Filtra por tipo, busca por nombre o tecnología, y abre el código o la demo de cada proyecto.</p>
+
+    <div class="controles glass">
+      <div class="filtros" id="filtros">
+        <button class="filtro activo" data-filtro="todos">Todos</button>
+        <button class="filtro" data-filtro="curso">En curso</button>
+        <button class="filtro" data-filtro="demo">Con demo en Vercel</button>
+        <button class="filtro" data-filtro="github">Solo GitHub</button>
+      </div>
+      <input class="buscar" id="buscar" type="search" placeholder="Buscar proyecto o tecnología…" aria-label="Buscar proyecto">
+    </div>
+    <p class="contador" id="contador"></p>
+
+    <div id="secciones"></div>
+    <p class="vacio" id="vacio">No encontré proyectos con esa búsqueda.</p>
+  </div>
+</section>
+
+<!-- 4. CONTACTO -->
+<section id="contacto">
+  <div class="wrap">
+    <div class="contacto-grid">
+      <div>
+        <p class="eyebrow">Contacto</p>
+        <h2>Hablemos de tu próximo proyecto</h2>
+        <p class="bajada">Estoy disponible para entrevistas y nuevos retos en desarrollo de software. Escríbeme o revisa mi código en GitHub.</p>
+        <div class="botones">
+          <a class="btn" href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=santiagocisneros046@gmail.com" target="_blank" rel="noopener">Enviar correo</a>
+          <a class="btn borde" href="https://github.com/SantiagoCIS046" target="_blank" rel="noopener">Ver GitHub</a>
+        </div>
+      </div>
+      <div class="datos glass">
+        <div class="dato"><div class="ic">@</div><div><small>Correo</small><a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=santiagocisneros046@gmail.com" target="_blank" rel="noopener">santiagocisneros046@gmail.com</a></div></div>
+        <div class="dato"><div class="ic">☎</div><div><small>Teléfono</small><span>322 235 3738</span></div></div>
+        <div class="dato"><div class="ic">⌂</div><div><small>Ubicación</small><span>San Gil, Santander, Colombia</span></div></div>
+        <div class="dato"><div class="ic">GH</div><div><small>GitHub</small><a href="https://github.com/SantiagoCIS046" target="_blank" rel="noopener">github.com/SantiagoCIS046</a></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>© Santiago José Cisneros Mendoza · Desarrollador Web</footer>
+
+<script>
+(function(){
+  /* ---------- Datos de proyectos ---------- */
+  var PROYECTOS = [
+    {nombre:'Ojo de Dios Vision', ico:'OD', estado:'En proceso', curso:true, color:'',
+     desc:'App tipo Waze con versión de escritorio y móvil. Aún en desarrollo.',
+     como:'Plataforma con información en tiempo real; la versión móvil está planeada en Dart y comparte la idea de la versión de escritorio.',
+     tech:['Dart','Escritorio','Móvil'],
+     gh:'https://github.com/SantiagoCIS046/vision',
+     vercel:[{label:'Versión móvil',url:'https://vision-mov.vercel.app/'},{label:'Versión PC',url:'https://vision-vert-one.vercel.app/'}]},
+    {nombre:'Etapas Productivas SENA', ico:'SE', estado:'Aprobado · En curso', curso:true, color:'verde',
+     desc:'Plataforma para gestionar y dar seguimiento a las etapas productivas del SENA.',
+     como:'Interfaz web en Vue.js para gestionar el proceso de etapas productivas como proyecto formativo.',
+     tech:['Vue.js','SENA'],
+     vercel:[{label:'Ver demo',url:'https://complementarias-seven.vercel.app/'}]},
+    {nombre:'Gestión Operativa Acuasan', ico:'AC', estado:'En curso', curso:true, color:'',
+     desc:'Proyecto de gestión operativa para Acuasan.',
+     tech:['Gestión operativa'],
+     gh:'https://github.com/SantiagoCIS046/Gestion-Operativa-Acusan-',
+     vercel:[{label:'Ver demo',url:'https://horasextras-iota.vercel.app/'}]},
+    {nombre:'LlegadasTarde', ico:'LT', estado:'SENA', color:'verde',
+     desc:'Control de asistencia para el SENA con autenticación biométrica y dashboard en tiempo real.',
+     como:'Registro de asistencia con validación por QR, huella o Face ID, y un dashboard que muestra los datos al momento.',
+     tech:['Biometría','Dashboard'],
+     vercel:[{label:'Ver demo',url:'https://llegadas-tarde-omega.vercel.app/'}]},
+    {nombre:'StyleUrban', ico:'SU', estado:'E-commerce', color:'',
+     desc:'E-commerce de ropa urbana con pagos integrados (Nequi, Wompi y ePayco), carrito y gestión de productos.',
+     como:'Catálogo y carrito conectados a pasarelas de pago colombianas, con gestión de productos desde la interfaz.',
+     tech:['E-commerce','Pagos'],
+     vercel:[{label:'Ver demo',url:'https://styleurban.vercel.app/'}]},
+    {nombre:'Shopping Cart', ico:'SC', estado:'Carrito', color:'',
+     desc:'Carrito de compras moderno con gestión de productos, filtros y checkout.',
+     como:'Flujo completo de compra con Quasar Framework: filtros de productos, carrito y proceso de pago.',
+     tech:['Quasar','JavaScript'],
+     gh:'https://github.com/SantiagoCIS046/Carrito-Compra',
+     vercel:[{label:'Ver demo',url:'https://shopping-cart-santiagocis046.vercel.app/'}]},
+    {nombre:'Numerología', ico:'NU', estado:'Web', color:'arena',
+     desc:'Aplicación web de numerología.',
+     tech:['Web'],
+     gh:'https://github.com/SantiagoCIS046/Numerix',
+     vercel:[{label:'Ver demo',url:'https://numerix-tau.vercel.app/'}]},
+    {nombre:'Restaurante', ico:'RE', estado:'Web', color:'arena',
+     desc:'Sitio web para restaurante.',
+     como:'Sitio web responsivo para presentar el restaurante y su información.',
+     tech:['Web','HTML'],
+     gh:'https://github.com/SantiagoCIS046/Restaurant_Proj',
+     vercel:[{label:'Ver demo',url:'https://restaurant-proj.vercel.app/'}]},
+    {nombre:'Presupuesto de Gastos', ico:'PG', estado:'Finanzas', color:'verde',
+     desc:'Aplicación para controlar ingresos, gastos y ver estadísticas personales.',
+     como:'Registro de ingresos y gastos con cálculos automáticos y visualización de estadísticas.',
+     tech:['Vue.js','Finanzas'],
+     vercel:[{label:'Ver demo',url:'https://presupuesto-de-gastos.vercel.app/'}]},
+    {nombre:'Juego del Ahorcado', ico:'AH', estado:'Juego', color:'',
+     desc:'Juego interactivo con niveles de dificultad y sistema de puntuación.',
+     como:'Lógica del juego en Vue.js con componentes reactivos, niveles de dificultad y puntuación.',
+     tech:['Vue.js','Juego'],
+     vercel:[{label:'Ver demo',url:'https://game-ahorcado-vue-santiagocis046.vercel.app/'}]},
+    {nombre:'Arch JS', ico:'AJ', estado:'Arquitectura', color:'',
+     desc:'Proyecto de arquitectura JavaScript con patrones de diseño y buenas prácticas.',
+     como:'Código organizado con patrones de diseño para separar la lógica, los datos y la vista.',
+     tech:['JavaScript'],
+     vercel:[{label:'Ver demo',url:'https://arch-js-santiagocis046.vercel.app/'}]},
+    {nombre:'App Peso', ico:'AP', estado:'App', color:'',
+     desc:'Aplicación web con seguimiento de peso.',
+     tech:['Web'],
+     vercel:[{label:'Ver demo',url:'https://app-peso.vercel.app/'}]},
+    {nombre:'Calculadora', ico:'CA', estado:'Web', color:'',
+     desc:'Aplicación web de calculadora.',
+     tech:['Web'],
+     vercel:[{label:'Ver demo',url:'https://calculadora-delta-lac.vercel.app/'}]},
+    {nombre:'Portafolio anterior', ico:'PW', estado:'Portafolio', color:'arena',
+     desc:'Primera versión de mi portafolio con proyectos web.',
+     como:'Sitio web con el listado de mis proyectos y enlaces directos a cada uno.',
+     tech:['Web'],
+     vercel:[{label:'Ver sitio',url:'https://mi-portafolio-two-rust.vercel.app/'}]},
+    {nombre:'HomeStyle', ico:'HS', estado:'Solo GitHub', color:'',
+     desc:'Repositorio con carpetas de backend y store, y documentación de requisitos del backend.',
+     tech:['Backend'],
+     gh:'https://github.com/SantiagoCIS046/HomeStyle', vercel:[]},
+    {nombre:'Pokemon', ico:'PK', estado:'Solo GitHub', color:'',
+     desc:'Proyecto con temática Pokémon.',
+     tech:['Pokémon'],
+     gh:'https://github.com/SantiagoCIS046/Pokemon', vercel:[]},
+    {nombre:'Traductor Shakespeare', ico:'TS', estado:'Solo GitHub', color:'',
+     desc:'Traductor de texto a estilo shakespeariano.',
+     tech:['Traductor'],
+     gh:'https://github.com/SantiagoCIS046/Traductor-Shakespeare', vercel:[]}
+  ];
+
+  /* ---------- Render ---------- */
+  function tarjeta(p){
+    var tieneDemo = p.vercel && p.vercel.length > 0;
+    var attrs = 'data-curso="' + !!p.curso + '" data-demo="' + tieneDemo + '" data-gh="' + !!p.gh + '" data-texto="' + (p.nombre + ' ' + p.desc + ' ' + p.tech.join(' ')).toLowerCase() + '"';
+    var enlaces = '';
+    if (p.gh) enlaces += '<a class="gh" href="' + p.gh + '" target="_blank" rel="noopener">GitHub</a>';
+    (p.vercel || []).forEach(function(v){ enlaces += '<a href="' + v.url + '" target="_blank" rel="noopener">' + v.label + ' →</a>'; });
+    return '<article class="card glass ' + (p.color||'') + ' reveal" ' + attrs + '>' +
+      '<div class="cab"><div class="ico">' + p.ico + '</div><span class="estado ' + (p.curso?'curso':'') + '">' + p.estado + '</span></div>' +
+      '<h3>' + p.nombre + '</h3>' +
+      '<p class="desc">' + p.desc + '</p>' +
+      (p.como ? '<div class="como"><b>Cómo lo desarrollé</b>' + p.como + '</div>' : '') +
+      '<div class="stack">' + p.tech.join(' · ') + '</div>' +
+      '<div class="enlaces">' + enlaces + '</div>' +
+      '</article>';
+  }
+
+  var demo = PROYECTOS.filter(function(p){ return p.vercel && p.vercel.length; });
+  var soloGH = PROYECTOS.filter(function(p){ return !(p.vercel && p.vercel.length); });
+
+  document.getElementById('secciones').innerHTML =
+    '<div class="grupo-titulo"><h3>Con demo en línea (Vercel)</h3><span>' + demo.length + ' proyectos</span></div>' +
+    '<div class="grid">' + demo.map(tarjeta).join('') + '</div>' +
+    '<div class="grupo-titulo"><h3>Solo en GitHub</h3><span>' + soloGH.length + ' proyectos</span></div>' +
+    '<div class="grid">' + soloGH.map(tarjeta).join('') + '</div>';
+
+  /* ---------- Filtros y búsqueda ---------- */
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var filtroActual = 'todos';
+  var contador = document.getElementById('contador');
+  var vacio = document.getElementById('vacio');
+  var buscar = document.getElementById('buscar');
+
+  function aplicar(){
+    var q = buscar.value.trim().toLowerCase();
+    var visibles = 0;
+    cards.forEach(function(c){
+      var ok = true;
+      if (filtroActual === 'curso') ok = c.dataset.curso === 'true';
+      if (filtroActual === 'demo') ok = c.dataset.demo === 'true';
+      if (filtroActual === 'github') ok = c.dataset.gh === 'true';
+      if (ok && q) ok = c.dataset.texto.indexOf(q) !== -1;
+      c.classList.toggle('oculto', !ok);
+      if (ok) visibles++;
+    });
+    contador.textContent = 'Mostrando ' + visibles + ' de ' + cards.length + ' proyectos';
+    vacio.style.display = visibles ? 'none' : 'block';
+    document.querySelectorAll('.grupo-titulo').forEach(function(g){
+      var grid = g.nextElementSibling;
+      var hay = grid && grid.querySelector('.card:not(.oculto)');
+      g.style.display = hay ? 'flex' : 'none';
+      if (grid) grid.style.display = hay ? 'grid' : 'none';
+    });
+  }
+  document.getElementById('filtros').addEventListener('click', function(e){
+    var b = e.target.closest('.filtro'); if (!b) return;
+    document.querySelectorAll('.filtro').forEach(function(x){ x.classList.remove('activo'); });
+    b.classList.add('activo');
+    filtroActual = b.dataset.filtro;
+    aplicar();
+  });
+  buscar.addEventListener('input', aplicar);
+  aplicar();
+
+  /* ---------- Intro: scroll ---------- */
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var inicio = document.getElementById('inicio');
+  var bg = document.getElementById('introBg');
+  var txt = document.getElementById('introTxt');
+  var barra = document.getElementById('barra');
+  var clamp = function(v){ return Math.min(1, Math.max(0, v)); };
+
+  function frame(){
+    var total = inicio.offsetHeight - window.innerHeight;
+    var p = clamp(window.scrollY / total);
+    barra.style.width = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100) + '%';
+    if (reduce) return;
+    bg.style.transform = 'scale(' + (1 + p * 0.12) + ')';
+    bg.style.opacity = String(1 - clamp((p - 0.6) / 0.4));
+    txt.style.transform = 'translateY(' + (-p * 120) + 'px)';
+    txt.style.opacity = String(1 - clamp((p - 0.15) / 0.5));
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if (!ticking){ requestAnimationFrame(function(){ frame(); ticking = false; }); ticking = true; }
+  }, {passive:true});
+  window.addEventListener('resize', frame);
+  frame();
+
+  /* ---------- Revelado al hacer scroll ---------- */
+  var reveal = document.querySelectorAll('.reveal, .exp .glass');
+  if ('IntersectionObserver' in window && !reduce){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, {threshold:0.12});
+    reveal.forEach(function(c){ io.observe(c); });
+  } else {
+    reveal.forEach(function(c){ c.classList.add('in'); });
+  }
+})();
+</script>
+</body>
+</html>
