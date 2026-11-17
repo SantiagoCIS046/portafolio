@@ -101,10 +101,27 @@
   .buscar::placeholder{color:var(--sutil)}
   .buscar:focus{border-color:var(--azul);box-shadow:0 0 0 3px rgba(111,168,199,.15)}
   .contador{font-size:.84rem;color:var(--sutil);margin-bottom:12px}
-  .grupo-titulo{display:flex;align-items:center;gap:14px;margin:44px 0 18px}
+  .grupo-titulo{display:flex;align-items:center;gap:14px;margin:44px 0 16px;flex-wrap:wrap}
   .grupo-titulo h3{font-size:1.2rem}
   .grupo-titulo span{font-size:.72rem;padding:4px 12px;border-radius:999px;font-weight:700;background:rgba(111,168,199,.12);color:var(--azul-h);border:1px solid rgba(111,168,199,.22)}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(290px,100%),1fr));gap:18px}
+  .ver-mas{margin-left:auto;border:1px solid rgba(111,168,199,.4);color:var(--azul-h);background:rgba(111,168,199,.06);padding:7px 14px;border-radius:999px;font-size:.76rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .2s}
+  .ver-mas:hover{background:var(--azul);color:#06161C;border-color:var(--azul)}
+  /* Carruseles horizontales por categoría */
+  .carrusel-area{position:relative}
+  .carrusel{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 2px 6px}
+  .carrusel::-webkit-scrollbar{display:none}
+  .carrusel .card{flex:0 0 300px;scroll-snap-align:start;padding:20px}
+  .grupo.expandido .carrusel{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));overflow:visible}
+  .grupo.expandido .card{flex:none}
+  .grupo.expandido .flecha{display:none!important}
+  .flecha{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:38px;height:38px;border-radius:50%;border:1px solid var(--borde);background:rgba(10,20,24,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#E6EEEA;font-size:1.15rem;line-height:1;cursor:pointer;display:none;align-items:center;justify-content:center;padding:0;transition:opacity .25s,background .2s}
+  .flecha:hover{background:var(--azul);color:#06161C;border-color:var(--azul)}
+  .flecha.prev{left:-12px}
+  .flecha.next{right:-12px}
+  .flecha.off{opacity:0;pointer-events:none}
+  @media (hover:hover){.flecha{display:flex}}
+  .swipe-hint{display:none;font-size:.68rem;color:var(--sutil);letter-spacing:.1em;margin:4px 2px 0}
+  @media (hover:none){.swipe-hint{display:block}.grupo.expandido .swipe-hint{display:none}}
   .card{padding:24px;display:flex;flex-direction:column;opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease,background .25s,border-color .25s}
   .card.in{opacity:1;transform:none}
   .card:hover{background:var(--panel-h);border-color:rgba(255,255,255,.16)}
@@ -189,9 +206,11 @@
     .filtro{padding:8px 14px;font-size:.78rem;white-space:nowrap}
     .buscar{min-width:100%;font-size:16px;padding:9px 14px}
     .contador{font-size:.76rem}
-    .grupo-titulo{margin:32px 0 14px}
+    .grupo-titulo{margin:32px 0 12px;gap:10px}
     .grupo-titulo h3{font-size:1.02rem}
-    .grid{gap:12px}
+    .ver-mas{font-size:.7rem;padding:6px 12px}
+    .carrusel{gap:10px}
+    .carrusel .card{flex:0 0 min(290px,80vw)}
     .card{padding:16px}
     .card .ico{width:34px;height:34px;font-size:.72rem}
     .card h3{font-size:.98rem}
@@ -450,11 +469,22 @@
   var demo = PROYECTOS.filter(function(p){ return p.vercel && p.vercel.length; });
   var soloGH = PROYECTOS.filter(function(p){ return !(p.vercel && p.vercel.length); });
 
+  function grupo(id, titulo, lista){
+    return '<div class="grupo" id="' + id + '">' +
+      '<div class="grupo-titulo"><h3>' + titulo + '</h3><span>' + lista.length + ' proyectos</span>' +
+      '<button class="ver-mas" type="button" aria-expanded="false">Ver más ↓</button></div>' +
+      '<div class="carrusel-area">' +
+      '<button class="flecha prev" type="button" aria-label="Anterior">‹</button>' +
+      '<div class="carrusel">' + lista.map(tarjeta).join('') + '</div>' +
+      '<button class="flecha next" type="button" aria-label="Siguiente">›</button>' +
+      '</div>' +
+      '<p class="swipe-hint">Desliza para ver más →</p>' +
+      '</div>';
+  }
+
   document.getElementById('secciones').innerHTML =
-    '<div class="grupo-titulo"><h3>Con demo en línea (Vercel)</h3><span>' + demo.length + ' proyectos</span></div>' +
-    '<div class="grid">' + demo.map(tarjeta).join('') + '</div>' +
-    '<div class="grupo-titulo"><h3>Solo en GitHub</h3><span>' + soloGH.length + ' proyectos</span></div>' +
-    '<div class="grid">' + soloGH.map(tarjeta).join('') + '</div>';
+    grupo('grupoDemo', 'Con demo en línea (Vercel)', demo) +
+    grupo('grupoGH', 'Solo en GitHub', soloGH);
 
   /* ---------- Filtros y búsqueda ---------- */
   var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
@@ -477,12 +507,11 @@
     });
     contador.textContent = 'Mostrando ' + visibles + ' de ' + cards.length + ' proyectos';
     vacio.style.display = visibles ? 'none' : 'block';
-    document.querySelectorAll('.grupo-titulo').forEach(function(g){
-      var grid = g.nextElementSibling;
-      var hay = grid && grid.querySelector('.card:not(.oculto)');
-      g.style.display = hay ? 'flex' : 'none';
-      if (grid) grid.style.display = hay ? 'grid' : 'none';
+    document.querySelectorAll('.grupo').forEach(function(g){
+      var hay = g.querySelector('.card:not(.oculto)');
+      g.style.display = hay ? '' : 'none';
     });
+    document.dispatchEvent(new Event('filtro-cambio'));
   }
   document.getElementById('filtros').addEventListener('click', function(e){
     var b = e.target.closest('.filtro'); if (!b) return;
@@ -512,6 +541,37 @@
       document.body.classList.remove('menu-open');
       menuBtn.setAttribute('aria-expanded', 'false');
     }
+  });
+
+  /* ---------- Carruseles: Ver más / Ver menos y flechas ---------- */
+  document.querySelectorAll('.grupo').forEach(function(g){
+    var btn = g.querySelector('.ver-mas');
+    var carrusel = g.querySelector('.carrusel');
+    var prev = g.querySelector('.flecha.prev');
+    var next = g.querySelector('.flecha.next');
+    var hint = g.querySelector('.swipe-hint');
+    btn.addEventListener('click', function(){
+      var abierto = g.classList.toggle('expandido');
+      btn.textContent = abierto ? 'Ver menos ↑' : 'Ver más ↓';
+      btn.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+    });
+    function flechas(){
+      var max = carrusel.scrollWidth - carrusel.clientWidth;
+      prev.classList.toggle('off', carrusel.scrollLeft <= 4);
+      next.classList.toggle('off', !max || carrusel.scrollLeft >= max - 4);
+      if (hint) hint.style.display = (max > 4) ? '' : 'none';
+    }
+    function paso(dir){
+      var card = carrusel.querySelector('.card');
+      var w = card ? card.offsetWidth + 14 : 300;
+      carrusel.scrollBy({left: dir * w, behavior:'smooth'});
+    }
+    prev.addEventListener('click', function(){ paso(-1); });
+    next.addEventListener('click', function(){ paso(1); });
+    carrusel.addEventListener('scroll', function(){ requestAnimationFrame(flechas); }, {passive:true});
+    window.addEventListener('resize', flechas);
+    document.addEventListener('filtro-cambio', flechas);
+    flechas();
   });
 
   /* ---------- Intro: scroll ---------- */
