@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#081012">
 <title>Santiago Cisneros · Desarrollador Web</title>
 <style>
   :root{
@@ -28,20 +29,32 @@
   h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;line-height:1.2;color:#F2F7F4}
   .eyebrow{font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--azul);font-weight:700;margin-bottom:12px}
   .glass{background:var(--panel);backdrop-filter:blur(18px) saturate(130%);-webkit-backdrop-filter:blur(18px) saturate(130%);border:1px solid var(--borde);box-shadow:var(--sombra);border-radius:20px}
-  section{position:relative}
+  section{position:relative;scroll-margin-top:84px}
   .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
 
   /* Nav */
-  nav{overflow:hidden;position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:30;width:min(1040px,calc(100% - 32px));padding:10px 22px;display:flex;justify-content:space-between;align-items:center;border-radius:999px}
-  nav .logo{font-family:Georgia,serif;font-weight:600;color:#F2F7F4}
+  .nav-wrap{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:30;width:min(1040px,calc(100% - 32px))}
+  nav{position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:center;padding:10px 22px;border-radius:999px}
+  nav .logo{font-family:Georgia,serif;font-weight:600;color:#F2F7F4;font-size:1rem;white-space:nowrap}
   nav ul{display:flex;gap:22px;list-style:none;font-size:.88rem}
   nav ul a{color:var(--suave)}
   nav ul a:hover{color:var(--azul-h)}
   #barra{position:absolute;left:0;right:0;bottom:0;height:2px;width:0;background:linear-gradient(90deg,var(--azul),var(--salvia));border-radius:2px}
+  /* Botón hamburguesa (solo móvil) */
+  .menu-btn{display:none;width:42px;height:42px;flex-shrink:0;border-radius:12px;border:1px solid var(--borde);background:rgba(255,255,255,.04);cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0}
+  .menu-btn span{display:block;width:18px;height:2px;background:var(--texto);border-radius:2px;transition:transform .3s ease,opacity .3s ease}
+  body.menu-open .menu-btn span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  body.menu-open .menu-btn span:nth-child(2){opacity:0}
+  body.menu-open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  /* Menú móvil desplegable */
+  .menu-movil{display:none;margin-top:0;max-height:0;overflow:hidden;border-radius:22px;background:rgba(12,24,28,.92);backdrop-filter:blur(18px) saturate(130%);-webkit-backdrop-filter:blur(18px) saturate(130%);border:1px solid transparent;box-shadow:none;visibility:hidden;transition:max-height .35s ease,margin-top .35s ease,border-color .3s ease,visibility .35s}
+  .menu-movil a{display:block;padding:14px 18px;font-size:.95rem;font-weight:600;color:var(--suave);border-bottom:1px solid var(--borde)}
+  .menu-movil a:last-child{border-bottom:0}
+  .menu-movil a:hover,.menu-movil a:active{color:var(--azul-h);background:rgba(255,255,255,.04)}
 
   /* ===== 1. INTRO con fondo de desarrollador ===== */
   #inicio{height:220vh}
-  .intro-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .intro-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center;justify-content:center}
   .intro-bg{position:absolute;inset:0;will-change:transform,opacity}
   .intro-bg svg{width:100%;height:100%;display:block}
   .intro-velo{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,16,18,.55) 0%,rgba(8,16,18,.25) 40%,rgba(8,16,18,.85) 100%)}
@@ -91,7 +104,7 @@
   .grupo-titulo{display:flex;align-items:center;gap:14px;margin:44px 0 18px}
   .grupo-titulo h3{font-size:1.2rem}
   .grupo-titulo span{font-size:.72rem;padding:4px 12px;border-radius:999px;font-weight:700;background:rgba(111,168,199,.12);color:var(--azul-h);border:1px solid rgba(111,168,199,.22)}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(290px,100%),1fr));gap:18px}
   .card{padding:24px;display:flex;flex-direction:column;opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease,background .25s,border-color .25s}
   .card.in{opacity:1;transform:none}
   .card:hover{background:var(--panel-h);border-color:rgba(255,255,255,.16)}
@@ -129,16 +142,78 @@
   .dato:last-child{border-bottom:0}
   .dato .ic{width:42px;height:42px;border-radius:12px;background:rgba(111,168,199,.1);border:1px solid rgba(111,168,199,.2);display:flex;align-items:center;justify-content:center;color:var(--azul-h);font-weight:700;font-size:.8rem;flex-shrink:0}
   .dato small{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;color:var(--sutil)}
-  .dato a,.dato span{color:#E6EEEA;font-size:.98rem}
+  .dato a,.dato span{color:#E6EEEA;font-size:.98rem;overflow-wrap:anywhere}
   footer{text-align:center;color:var(--sutil);font-size:.82rem;padding:0 24px 40px}
 
   @media (max-width:860px){
-    .perfil-grid,.contacto-grid{grid-template-columns:1fr;gap:32px}
-    .exp{grid-template-columns:1fr}
+    body{background-attachment:scroll}
+    /* Nav y menú móvil */
+    nav{padding:8px 10px 8px 18px}
+    nav .logo{font-size:.92rem}
     nav ul{display:none}
+    .menu-btn{display:flex}
+    .menu-movil{display:block}
+    body.menu-open .menu-movil{max-height:240px;margin-top:10px;border-color:var(--borde);box-shadow:var(--sombra);visibility:visible}
+    /* Intro más corta y compacta */
+    #inicio{height:160vh}
+    .intro-txt{margin-top:-40px;padding:0 18px}
+    .intro-txt h1{font-size:clamp(1.9rem,9vw,3rem)}
+    .intro-txt p{font-size:.92rem}
     .pista{display:none}
-    .buscar{min-width:100%}
-    .info{grid-template-columns:1fr}
+    /* Espaciados y tipografía compactos */
+    .wrap{padding:0 18px}
+    section{scroll-margin-top:78px}
+    #perfil{padding:84px 0 64px}
+    #proyectos{padding:72px 0 72px}
+    #contacto{padding:84px 0 56px}
+    .perfil-grid,.contacto-grid{grid-template-columns:1fr;gap:26px}
+    .perfil-txt h2{font-size:clamp(1.5rem,6vw,2rem)}
+    .rol{font-size:.92rem}
+    .bio{font-size:.9rem}
+    .foto{max-width:340px;margin:0 auto}
+    .info{grid-template-columns:1fr;gap:8px;margin:20px 0}
+    .info div{padding:10px 12px}
+    .info span{font-size:.85rem}
+    .chips{gap:6px}
+    .chip{font-size:.72rem;padding:5px 10px}
+    .exp{grid-template-columns:1fr;gap:12px;margin-top:32px}
+    .exp .glass{padding:16px}
+    .exp h3{font-size:.95rem}
+    .exp p{font-size:.84rem}
+    .exp .fecha{font-size:.72rem}
+    /* Proyectos */
+    #proyectos h2{font-size:clamp(1.5rem,6vw,2rem)}
+    .lead{font-size:.88rem;margin-bottom:18px}
+    .controles{flex-direction:column;align-items:stretch;padding:10px 12px;margin-bottom:16px;gap:10px}
+    .filtros{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .filtros::-webkit-scrollbar{display:none}
+    .filtro{padding:7px 13px;font-size:.78rem;white-space:nowrap;flex-shrink:0}
+    .buscar{min-width:100%;font-size:16px;padding:9px 14px}
+    .contador{font-size:.76rem}
+    .grupo-titulo{margin:32px 0 14px}
+    .grupo-titulo h3{font-size:1.02rem}
+    .grid{gap:12px}
+    .card{padding:16px}
+    .card .ico{width:34px;height:34px;font-size:.72rem}
+    .card h3{font-size:.98rem}
+    .card .desc{font-size:.82rem}
+    .card .como{font-size:.78rem;padding:9px 10px}
+    .card .stack{font-size:.68rem}
+    .enlaces a{font-size:.76rem;padding:7px 12px}
+    /* Contacto */
+    #contacto h2{font-size:clamp(1.6rem,7vw,2.2rem)}
+    .bajada{font-size:.88rem}
+    .btn{padding:10px 20px;font-size:.85rem}
+    .datos{padding:4px}
+    .dato{padding:13px 12px;gap:12px}
+    .dato .ic{width:36px;height:36px;font-size:.72rem}
+    .dato a,.dato span{font-size:.86rem}
+    footer{font-size:.72rem;padding:0 18px 30px}
+  }
+  @media (max-width:400px){
+    .intro-txt h1{font-size:1.65rem}
+    .eyebrow{font-size:.68rem;letter-spacing:.16em}
+    .chip{font-size:.68rem;padding:4px 9px}
   }
   @media (prefers-reduced-motion:reduce){
     #inicio{height:auto}
@@ -150,15 +225,25 @@
 </head>
 <body>
 
-<nav class="glass">
-  <span class="logo">Santiago Cisneros</span>
-  <ul>
-    <li><a href="#perfil">Perfil</a></li>
-    <li><a href="#proyectos">Proyectos</a></li>
-    <li><a href="#contacto">Contacto</a></li>
-  </ul>
-  <div id="barra"></div>
-</nav>
+<header class="nav-wrap">
+  <nav class="glass">
+    <span class="logo">Santiago Cisneros</span>
+    <ul>
+      <li><a href="#perfil">Perfil</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="menuMovil">
+      <span></span><span></span><span></span>
+    </button>
+    <div id="barra"></div>
+  </nav>
+  <div class="menu-movil" id="menuMovil">
+    <a href="#perfil">Perfil</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</header>
 
 <!-- 1. INTRO -->
 <section id="inicio">
@@ -409,6 +494,26 @@
   });
   buscar.addEventListener('input', aplicar);
   aplicar();
+
+  /* ---------- Menú móvil ---------- */
+  var menuBtn = document.getElementById('menuBtn');
+  menuBtn.addEventListener('click', function(){
+    var abierto = document.body.classList.toggle('menu-open');
+    menuBtn.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+    menuBtn.setAttribute('aria-label', abierto ? 'Cerrar menú' : 'Abrir menú');
+  });
+  document.querySelectorAll('#menuMovil a').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.body.classList.remove('menu-open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+  window.addEventListener('resize', function(){
+    if (window.innerWidth > 860 && document.body.classList.contains('menu-open')){
+      document.body.classList.remove('menu-open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
 
   /* ---------- Intro: scroll ---------- */
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
